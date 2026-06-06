@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepUp Sneakers — Premium Running Shoes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+
+    /* NAV */
+    nav {
+      background: #1e293b;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo { color: white; font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+    nav .logo span { color: #6366f1; }
+    nav .nav-links { display: flex; gap: 24px; }
+    nav .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; }
+    nav .cart { background: #6366f1; color: white; padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; }
+
+    /* PRODUCT PAGE */
+    .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+
+    /* IMAGE */
+    .image-section { position: relative; }
+    .product-image {
+      width: 100%;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+    }
+    .badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: #ef4444;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .thumbnails { display: flex; gap: 10px; margin-top: 14px; }
+    .thumb {
+      width: 70px; height: 70px; border-radius: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; cursor: pointer; opacity: 0.6; border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .thumb:first-child { opacity: 1; border-color: #6366f1; }
+
+    /* DETAILS */
+    .product-details { padding-top: 8px; }
+    .category { font-size: 12px; font-weight: 600; color: #6366f1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .product-title { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .rating { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .stars { color: #f59e0b; font-size: 16px; }
+    .rating-text { font-size: 13px; color: #64748b; }
+
+    /* PRICE — this is the A/B test element */
+    .price-section { margin-bottom: 24px; }
+    .price-main { font-size: 36px; font-weight: 800; color: #1e293b; }
+    .price-original { font-size: 18px; color: #94a3b8; text-decoration: line-through; margin-left: 10px; }
+    .price-save { font-size: 13px; font-weight: 600; color: #16a34a; margin-top: 4px; }
+    .price-installment { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+    .divider { height: 1px; background: #e2e8f0; margin: 20px 0; }
+
+    /* SIZE SELECTOR */
+    .size-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 10px; }
+    .sizes { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .size-btn {
+      width: 48px; height: 48px; border: 2px solid #e2e8f0;
+      border-radius: 10px; font-size: 13px; font-weight: 600;
+      cursor: pointer; background: white; color: #475569; transition: all 0.2s;
+    }
+    .size-btn:hover, .size-btn.active { border-color: #6366f1; color: #6366f1; background: #eef2ff; }
+    .size-btn.out { opacity: 0.35; cursor: not-allowed; }
+
+    /* COLOR SELECTOR */
+    .color-label { font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 10px; }
+    .colors { display: flex; gap: 10px; margin-bottom: 24px; }
+    .color-dot {
+      width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+      border: 3px solid transparent; transition: all 0.2s;
+    }
+    .color-dot.active { border-color: #1e293b; transform: scale(1.1); }
+
+    /* CTA BUTTON — this is the main A/B test element */
+    #cta-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    #cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    #cta-btn:active { transform: translateY(0); }
+
+    .wishlist-btn {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      background: white;
+      color: #475569;
+      transition: all 0.2s;
+    }
+    .wishlist-btn:hover { border-color: #6366f1; color: #6366f1; }
+
+    /* FEATURES */
+    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .feature {
+      display: flex; align-items: center; gap: 10px;
+      background: #f8fafc; border-radius: 10px; padding: 12px;
+    }
+    .feature-icon { font-size: 20px; }
+    .feature-text { font-size: 12px; font-weight: 500; color: #475569; }
+
+    /* VARIANT TAG */
+    #variant-tag {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #1e293b; color: white;
+      padding: 10px 18px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+      z-index: 100; opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed; top: 24px; right: 24px;
+      background: #16a34a; color: white;
+      padding: 14px 22px; border-radius: 12px;
+      font-size: 14px; font-weight: 600;
+      display: none; z-index: 200;
+      box-shadow: 0 8px 24px rgba(22,163,74,0.3);
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    /* EXPERIMENT INFO PANEL */
+    #experiment-panel {
+      background: #1e293b;
+      color: white;
+      padding: 20px 24px;
+      margin-top: 48px;
+      border-radius: 16px;
+    }
+    #experiment-panel h3 { font-size: 14px; font-weight: 700; color: #6366f1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .exp-row { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+    .exp-row span:last-child { color: white; font-weight: 600; }
+
+    @media (max-width: 768px) {
+      .product-grid { grid-template-columns: 1fr; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Step<span>Up</span></div>
+  <div class="nav-links">
+    <a href="#">Men</a>
+    <a href="#">Women</a>
+    <a href="#">Sale</a>
+  </div>
+  <button class="cart">🛒 Cart (0)</button>
+</nav>
+
+<!-- PRODUCT -->
+<div class="container">
+  <div class="product-grid">
+    <!-- Images -->
+    <div class="image-section">
+      <div class="badge">New Arrival</div>
+      <div class="product-image">👟</div>
+      <div class="thumbnails">
+        <div class="thumb">👟</div>
+        <div class="thumb">👟</div>
+        <div class="thumb">👟</div>
+        <div class="thumb">👟</div>
+      </div>
+    </div>
+
+    <!-- Details -->
+    <div class="product-details">
+      <div class="category">Premium Running</div>
+      <h1 class="product-title">AirStride Pro X1<br>Running Shoes</h1>
+      <div class="rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-text">4.9 (2,341 reviews)</span>
+      </div>
+
+      <!-- PRICE SECTION (A/B tested) -->
+      <div class="price-section" id="price-section">
+        <!-- Filled by JavaScript based on variant -->
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- SIZE -->
+      <div class="size-label">Select Size (US)</div>
+      <div class="sizes">
+        <button class="size-btn out">6</button>
+        <button class="size-btn active" onclick="selectSize(this)">7</button>
+        <button class="size-btn" onclick="selectSize(this)">8</button>
+        <button class="size-btn" onclick="selectSize(this)">9</button>
+        <button class="size-btn" onclick="selectSize(this)">10</button>
+        <button class="size-btn out">11</button>
+        <button class="size-btn" onclick="selectSize(this)">12</button>
+      </div>
+
+      <!-- COLOR -->
+      <div class="color-label">Color: Midnight Purple</div>
+      <div class="colors">
+        <div class="color-dot active" style="background:#764ba2" onclick="selectColor(this)"></div>
+        <div class="color-dot" style="background:#1e293b" onclick="selectColor(this)"></div>
+        <div class="color-dot" style="background:#ef4444" onclick="selectColor(this)"></div>
+        <div class="color-dot" style="background:#16a34a" onclick="selectColor(this)"></div>
+      </div>
+
+      <!-- CTA BUTTON (A/B tested) -->
+      <button id="cta-btn" onclick="addToCart()">
+        <span id="btn-icon">🛒</span>
+        <span id="btn-text">Add to Cart</span>
+      </button>
+      <button class="wishlist-btn">♡ &nbsp; Save to Wishlist</button>
+
+      <!-- FEATURES -->
+      <div class="features">
+        <div class="feature"><span class="feature-icon">🚚</span><span class="feature-text">Free shipping over $50</span></div>
+        <div class="feature"><span class="feature-icon">↩️</span><span class="feature-text">30-day free returns</span></div>
+        <div class="feature"><span class="feature-icon">🔒</span><span class="feature-text">Secure checkout</span></div>
+        <div class="feature"><span class="feature-icon">⭐</span><span class="feature-text">2-year warranty</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIMENT INFO PANEL -->
+  <div id="experiment-panel">
+    <h3>🧪 A/B Test Running on This Page</h3>
+    <div class="exp-row"><span>Experiment</span><span id="exp-name">Loading...</span></div>
+    <div class="exp-row"><span>Your Variant</span><span id="exp-variant">—</span></div>
+    <div class="exp-row"><span>What's being tested</span><span id="exp-what">—</span></div>
+    <div class="exp-row"><span>Conversion Goal</span><span id="exp-goal">—</span></div>
+    <div class="exp-row"><span>View live results</span><span><a href="http://localhost:3000" target="_blank" style="color:#6366f1">Open Splitly Dashboard →</a></span></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✅ Added to cart! Conversion tracked.</div>
+
+<!-- VARIANT TAG -->
+<div id="variant-tag"></div>
+
+<!-- SPLITLY TRACKER -->
+<script src="http://localhost:3001/snippet.js"></script>
+<script>
+  // ─── CONFIG ───────────────────────────────────────────────────────────────
+  // Replace with your actual experiment ID from Splitly dashboard
+  var EXPERIMENT_ID = '';
+  var cartCount = 0;
+
+  // ─── VARIANT DEFINITIONS ─────────────────────────────────────────────────
+  // Two variants being tested: different CTA button + price display
+  var VARIANTS = {
+    'Control': {
+      btnText: 'Add to Cart',
+      btnIcon: '🛒',
+      btnColor: '#6366f1',   // indigo
+      priceDisplay: 'simple',
+      what: 'Standard "Add to Cart" button (indigo)'
+    },
+    'Variant B': {
+      btnText: 'Buy Now — Limited Stock!',
+      btnIcon: '⚡',
+      btnColor: '#dc2626',   // red urgency
+      priceDisplay: 'urgency',
+      what: 'Urgency "Buy Now" button (red) + scarcity message'
+    }
+  };
+
+  // ─── PRICE DISPLAYS ───────────────────────────────────────────────────────
+  function renderPrice(variant) {
+    var section = document.getElementById('price-section');
+    if (variant === 'Variant B') {
+      section.innerHTML = `
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="price-main">$89.99</span>
+          <span class="price-original">$149.99</span>
+        </div>
+        <div class="price-save">💰 You save $60 (40% off)</div>
+        <div class="price-installment">or 4 × $22.50 with <strong>Splitly Pay</strong></div>
+        <div style="margin-top:10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;color:#dc2626;font-weight:600;">
+          🔥 Only 7 left in stock — 23 people viewing now
+        </div>`;
+    } else {
+      section.innerHTML = `
+        <div style="display:flex;align-items:center;gap:4px">
+          <span class="price-main">$89.99</span>
+          <span class="price-original">$149.99</span>
+        </div>
+        <div class="price-save">You save $60.00 (40% off)</div>
+        <div class="price-installment">Free shipping on this order</div>`;
+    }
+  }
+
+  // ─── APPLY VARIANT ────────────────────────────────────────────────────────
+  function applyVariant(variantName) {
+    var config = VARIANTS[variantName] || VARIANTS['Control'];
+
+    // Update button
+    var btn = document.getElementById('cta-btn');
+    btn.style.background = config.btnColor;
+    btn.style.color = 'white';
+    document.getElementById('btn-text').textContent = config.btnText;
+    document.getElementById('btn-icon').textContent = config.btnIcon;
+
+    // Update price section
+    renderPrice(variantName);
+
+    // Show variant tag
+    var tag = document.getElementById('variant-tag');
+    tag.textContent = '🧪 Variant: ' + variantName;
+    tag.style.opacity = '1';
+
+    // Update info panel
+    document.getElementById('exp-variant').textContent = variantName;
+    document.getElementById('exp-what').textContent = config.what;
+  }
+
+  // ─── LOAD EXPERIMENT ─────────────────────────────────────────────────────
+  function loadExperiment() {
+    // First fetch the active experiment from Splitly
+    fetch('http://localhost:3001/api/experiments')
+      .then(function(r) { return r.json(); })
+      .then(function(experiments) {
+        var active = experiments.find(function(e) { return e.status === 'active'; });
+
+        if (!active) {
+          // No active experiment — show default Control
+          applyVariant('Control');
+          document.getElementById('exp-name').textContent = 'No active experiment';
+          document.getElementById('exp-variant').textContent = 'Control (default)';
+          document.getElementById('exp-what').textContent = 'Start an experiment in Splitly to begin testing';
+          document.getElementById('exp-goal').textContent = 'N/A';
+          return;
+        }
+
+        EXPERIMENT_ID = active.id;
+        document.getElementById('exp-name').textContent = active.name;
+        document.getElementById('exp-goal').textContent = active.goal || 'Add to Cart click';
+
+        // Assign visitor to a variant
+        Splitly.assign(EXPERIMENT_ID, function(assignment) {
+          applyVariant(assignment.variantName);
+        });
+      })
+      .catch(function() {
+        applyVariant('Control');
+        document.getElementById('exp-name').textContent = 'Backend not connected';
+      });
+  }
+
+  // ─── ADD TO CART ─────────────────────────────────────────────────────────
+  function addToCart() {
+    // Track conversion in Splitly
+    if (EXPERIMENT_ID) {
+      Splitly.convert(EXPERIMENT_ID);
+    }
+
+    // Update cart
+    cartCount++;
+    document.querySelector('.cart').textContent = '🛒 Cart (' + cartCount + ')';
+
+    // Show toast
+    var toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(function() { toast.style.display = 'none'; }, 3000);
+  }
+
+  // ─── SIZE / COLOR HELPERS ─────────────────────────────────────────────────
+  function selectSize(el) {
+    document.querySelectorAll('.size-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+  }
+  function selectColor(el) {
+    document.querySelectorAll('.color-dot').forEach(function(d) { d.classList.remove('active'); });
+    el.classList.add('active');
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────────────────
+  loadExperiment();
+</script>
+</body>
+</html>
