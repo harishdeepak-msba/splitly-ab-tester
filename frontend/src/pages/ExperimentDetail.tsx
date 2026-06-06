@@ -208,13 +208,15 @@ export default function ExperimentDetail() {
   });
   const chartData = Object.values(chartMap).sort((a, b) => String(a.day).localeCompare(String(b.day)));
 
-  const winner = exp.variants
+  const winner: Variant | undefined = exp.variants
     .filter((v) => !v.is_control && v.stats?.significant && (v.stats?.relativeImprovement ?? 0) > 0)
     .sort((a, b) => (b.stats?.relativeImprovement ?? 0) - (a.stats?.relativeImprovement ?? 0))[0];
 
-  const loser = !winner && exp.variants.find(
-    (v) => !v.is_control && v.stats?.significant && (v.stats?.relativeImprovement ?? 0) < 0
-  );
+  const loser: Variant | undefined = !winner
+    ? exp.variants.find(
+        (v) => !v.is_control && v.stats?.significant && (v.stats?.relativeImprovement ?? 0) < 0
+      )
+    : undefined;
 
   return (
     <div>
