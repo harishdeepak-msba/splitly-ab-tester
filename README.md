@@ -5,6 +5,17 @@
 
 ---
 
+## 🌐 Live App
+
+| Service | URL |
+|---------|-----|
+| **Frontend (App)** | https://splitly-frontend.onrender.com |
+| **Backend (API)** | https://splitly-backend-hgac.onrender.com |
+
+> **Note:** Hosted on Render free tier — the backend may take ~30 seconds to wake up on first visit after a period of inactivity. The 3 O&G demo experiments auto-load on startup.
+
+---
+
 ## 🚀 Live Demo Scenarios (Oil & Gas Industry)
 
 The app ships with three pre-built Oil & Gas demo experiments:
