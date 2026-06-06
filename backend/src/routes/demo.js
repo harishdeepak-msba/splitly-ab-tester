@@ -90,8 +90,7 @@ const SCENARIOS = [
   },
 ];
 
-router.post('/seed-scenarios', (req, res) => {
-  // Remove existing demo scenarios to avoid duplicates
+function seedScenarios() {
   const existing = db.getAllExperiments();
   const scenarioNames = SCENARIOS.map((s) => s.experiment.name);
   const toRemove = existing.filter((e) => scenarioNames.includes(e.name)).map((e) => e.id);
@@ -134,7 +133,6 @@ router.post('/seed-scenarios', (req, res) => {
 
       for (let j = 0; j < vDef.impressions; j++) {
         const sessionId = `demo-${varId}-${j}`;
-        // Realistic traffic distribution: slow start, grows over time
         const dayProgress = Math.pow(Math.random(), 0.5);
         const t = createdAt + Math.floor(dayProgress * duration);
 
@@ -150,7 +148,13 @@ router.post('/seed-scenarios', (req, res) => {
   db.saveVariants(variants);
   db.saveEvents(events);
 
-  res.json({ success: true, count: SCENARIOS.length });
+  return SCENARIOS.length;
+}
+
+router.post('/seed-scenarios', (req, res) => {
+  const count = seedScenarios();
+  res.json({ success: true, count });
 });
 
 module.exports = router;
+module.exports.seedScenarios = seedScenarios;

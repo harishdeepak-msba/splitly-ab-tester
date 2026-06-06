@@ -68,4 +68,12 @@ app.get('/snippet.js', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('Splitly API running on http://localhost:' + PORT);
+
+  // Auto-seed demo data on startup if database is empty
+  const db = require('./db');
+  const { seedScenarios } = require('./routes/demo');
+  if (db.getAllExperiments().length === 0) {
+    seedScenarios();
+    console.log('Auto-seeded O&G demo scenarios.');
+  }
 });
